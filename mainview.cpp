@@ -14,7 +14,8 @@ MainView::MainView(const QGLFormat & format, QWidget *parent) : QGLWidget(format
 
     timer = new QTimer(this);
     connect( timer, SIGNAL(timeout()), this, SLOT(timerUpdate()) );
-    timer->start(50);
+    timer->start(30);
+    timer->stop();
 
     this->setMinimumSize(800,600);
 }
@@ -71,7 +72,9 @@ void MainView::toggleAnimation() {
 }
 
 void MainView::timerUpdate() {
-    scene->update(1.0f);
+    if(!scene->update()){
+        toggleAnimation();
+    }
     updateGL();
 }
 

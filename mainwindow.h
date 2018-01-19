@@ -26,6 +26,8 @@ private slots:
 
     void on_actionReset_view_triggered();
 
+    void on_actionLine_triggered();
+
 private:
     Ui::MainWindow *ui;
     MainView* view;

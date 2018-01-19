@@ -47,7 +47,7 @@ public:
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 400, 23));
+        menuBar->setGeometry(QRect(0, 0, 400, 19));
         menuLine_rotation = new QMenu(menuBar);
         menuLine_rotation->setObjectName(QStringLiteral("menuLine_rotation"));
         MainWindow->setMenuBar(menuBar);

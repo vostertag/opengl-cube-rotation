@@ -16,5 +16,5 @@ DialogView::~DialogView()
 
 void DialogView::on_buttonBox_accepted()
 {
-    this->view->getScene()->setView(ui->doubleSpinBox->value(), ui->doubleSpinBox_2->value(), ui->doubleSpinBox_3->value(), ui->doubleSpinBox_4->value(), ui->doubleSpinBox_5->value(), ui->doubleSpinBox_6->value());
+    this->view->getScene()->updateView(ui->doubleSpinBox->value(), ui->doubleSpinBox_2->value(), ui->doubleSpinBox_3->value(), ui->doubleSpinBox_4->value(), ui->doubleSpinBox_5->value(), ui->doubleSpinBox_6->value());
 }

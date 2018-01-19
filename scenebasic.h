@@ -27,8 +27,8 @@ private:
     mat4 trans1;
     mat4 trans2;
 
-    vec3 vect;
-    vec3 vect2;
+    vec3 vecB;
+    vec3 vecD;
 
     float currentAngle;
 
@@ -40,7 +40,7 @@ private:
     float positionData[108];
     float colorData[108];
     float lineData[6];
-    float lineColor[6];
+    float lineColor[6] = {0,0,0,0,0,0};
 
 public:
     SceneBasic();
@@ -49,15 +49,13 @@ public:
     void initScene();
     void render();
     void resize(int, int);
-    void update( float t );
-    void setRotation(float coordinates[], float angle);
+    bool update();
+    void rotateModel(float bX, float bY, float bZ, float dX, float dY, float dZ, float phi);
     void setUpLine(float x, float y, float z, float x2, float y2, float z2);
 
     void printActiveUniforms(GLuint programHandle);
     void printActiveAttribs(GLuint programHandle);
-    void setLine(float coordinates[6]);
-    void createRotation(float coordinates[6], float angle);
-    void setView(float x, float y, float z, float x2, float y2, float z2);
+    void updateView(float eX, float eY, float eZ, float directX, float directY, float directZ);
 };
 
 #endif // SCENEBASIC_H

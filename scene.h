@@ -13,7 +13,7 @@ public:
       This is called prior to every frame.  Use this
       to update your animation.
       */
-    virtual void update( float t ) = 0;
+    virtual bool update() = 0;
 
     /**
       Draw your scene.
@@ -25,9 +25,9 @@ public:
       */
     virtual void resize(int, int) = 0;
 
-    virtual void setRotation(float coordinates[6], float angle) = 0;
+    virtual void rotateModel(float bX, float bY, float bZ, float dX, float dY, float dZ, float phi) = 0;
 
-    virtual void setView(float x, float y, float z, float x2, float y2, float z2) = 0;
+    virtual void updateView(float eX, float eY, float eZ, float directX, float directY, float directZ) = 0;
 };
 
 #endif // SCENE_H

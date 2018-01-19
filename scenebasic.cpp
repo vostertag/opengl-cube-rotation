@@ -46,10 +46,6 @@ void SceneBasic::CreateVBO()
     GLuint positionBufferHandle = vboHandles[0];
     GLuint colorBufferHandle = vboHandles[1];
 
-    for(int i=0; i<6;i++){
-        lineColor[i] = 0;
-    }
-
     // bind positionBufferHandle to GL_ARRAY_BUFFER buffer object target
     glBindBuffer(GL_ARRAY_BUFFER, positionBufferHandle);
     // creates and initializes GL_ARRAY_BUFFER buffer object's data store
@@ -194,22 +190,22 @@ void SceneBasic::initScene()
 }
 
 
-void SceneBasic::update( float t )
+bool SceneBasic::update()
 {
-    /*angle += t*2*PI/360.0;
-    if( t >= 360.0) angle -= 2*PI;*/
+    if(currentAngle < angle){
+        model = glm::translate(model, this->vecB);
+        model = glm::rotate(model,2*PI/360.0f,this->vecD);
+        model = glm::translate(model, -this->vecB);
+        currentAngle += 2*PI/360.0;
+        return true;
+    }
+    return false;
 }
 
 
 void SceneBasic::setMatrices()
 {
-    if(currentAngle < angle){
-        model = glm::translate(model, vect);
-        model = glm::rotate(model,2*PI/360.0f,this->vecb);
-        model = glm::translate(model, vect2);
-        currentAngle += 2*PI/360.0;
-    }
-    mat4 mv = view * rotationMatrix * model;
+    mat4 mv = view * model;
     prog.setUniform("ModelViewMatrix", mv);
     prog.setUniform("MVP", projection * mv);
 }
@@ -232,16 +228,13 @@ void SceneBasic::render()
        36 specifies the number of indices to be rendered. */
 
     setMatrices();
+    glDrawArrays(GL_POINT, 38, 1 );
     glDrawArrays(GL_TRIANGLES, 0, 36 );
     glDrawArrays(GL_LINES, 36, 2 );
 }
 
 void SceneBasic::resize(int w, int h)
 {
-    /*glViewport(0,0,w,h);
-    width = w;
-    height = h;
-    projection=glm::perspective(PI/6,(float)w/h,0.3f,30.0f);*/
 
     glViewport(0,0,w,h);
     width = w;
@@ -295,81 +288,17 @@ void SceneBasic::printActiveAttribs(GLuint programHandle) {
     free(name);
 }
 
-void SceneBasic::setRotation(float coordinates[6], float angle){
-    setLine(coordinates);
-    createRotation(coordinates, angle);
+void SceneBasic::rotateModel(float bX, float bY, float bZ,
+                             float dX, float dY, float dZ, float phi){
+    vecB = vec3(bX, bY, bZ);
+    vecD = glm::normalize(vec3(dX, dY, dZ));
+    angle = phi * PI/180.0;
+    currentAngle = 2*PI/360.0;
+    float coordinates[6] = {bX-1000*dX,bY-1000*dY,bZ-1000*dZ,bX+1000*dX,bY+1000*dY,bZ+1000*dZ};
+    std::copy(coordinates, coordinates+6, lineData);
     this->CreateVBO();
 }
 
-void SceneBasic::setLine(float coordinates[6]){
-    for(int i=0; i<sizeof(coordinates); i++){
-        if(i<3){
-            lineData[i] = coordinates[i];
-        }else{
-            lineData[i] = coordinates[i-3] + coordinates[i];
-        }
-    }
-}
-
-void SceneBasic::createRotation(float coordinates[6], float angleToReach){
-    angle = angleToReach*PI/180;
-    currentAngle = 2*PI/360.0;
-    vecb = vec3(coordinates[3], coordinates[4], coordinates[5]);
-    vecb = glm::normalize(vecb);
-    vect = vec3(coordinates[0], coordinates[1], coordinates[2]);
-    vect2 = vec3(-coordinates[0], -coordinates[1], -coordinates[2]);
-
-    /*mat4 rot1 = mat4(
-                (1-cos(currentAngle))*vecb[0]*vecb[0]+cos(currentAngle),(1-cos(currentAngle))*vecb[0]*vecb[1]-vecb[2]*sin(currentAngle),(1-cos(currentAngle))*vecb[0]*vecb[2]+vecb[1]*sin(currentAngle), 0,
-                (1-cos(currentAngle))*vecb[0]*vecb[1]+vecb[2]*sin(currentAngle), (1-cos(currentAngle))*vecb[1]*vecb[1]+cos(currentAngle), (1-cos(currentAngle))*vecb[2]*vecb[1]-vecb[0]*sin(currentAngle),0,
-                (1-cos(currentAngle))*vecb[2]*vecb[0]-vecb[1]*sin(currentAngle), (1-cos(currentAngle))*vecb[2]*vecb[1]+vecb[0]*sin(currentAngle), (1-cos(currentAngle))*vecb[2]*vecb[2]+cos(currentAngle),0,
-                0,0,0,1
-                );
-    vec3 vect = vec3(coordinates[0], coordinates[1], coordinates[2]);
-    vec3 vect2 = vec3(-coordinates[0], -coordinates[1], -coordinates[2]);
-    mat4 trans1 = mat4(
-                1,0,0,vect2[0],
-                0,1,0,vect2[1],
-                0,0,1,vect2[2],
-                0,0,0,1
-                );
-    mat4 trans2 = mat4(
-                1,0,0,vect[0],
-                0,1,0,vect[1],
-                0,0,1,vect[2],
-                0,0,0,1
-                );
-    rotationMatrix = trans2*rot1*trans1;*/
-
-    /*vec3 vecb = vec3(coordinates[3], coordinates[4], coordinates[5]);
-    angle = PI/180 * angle;
-    vecb = glm::normalize(vecb);
-    mat4 rot1 = mat4(
-                (1-cos(angle))*vecb[0]*vecb[0]+cos(angle),(1-cos(angle))*vecb[0]*vecb[1]-vecb[2]*sin(angle),(1-cos(angle))*vecb[0]*vecb[2]+vecb[1]*sin(angle), 0,
-                (1-cos(angle))*vecb[0]*vecb[1]+vecb[2]*sin(angle), (1-cos(angle))*vecb[1]*vecb[1]+cos(angle), (1-cos(angle))*vecb[2]*vecb[1]-vecb[0]*sin(angle),0,
-                (1-cos(angle))*vecb[2]*vecb[0]-vecb[1]*sin(angle), (1-cos(angle))*vecb[2]*vecb[1]+vecb[0]*sin(angle), (1-cos(angle))*vecb[2]*vecb[2]+cos(angle),0,
-                0,0,0,1
-                );
-    vec3 vect = vec3(coordinates[0], coordinates[1], coordinates[2]);
-    vec3 vect2 = vec3(-coordinates[0], -coordinates[1], -coordinates[2]);
-    mat4 trans1 = mat4(
-                1,0,0,vect2[0],
-                0,1,0,vect2[1],
-                0,0,1,vect2[2],
-                0,0,0,1
-                );
-    mat4 trans2 = mat4(
-                1,0,0,vect[0],
-                0,1,0,vect[1],
-                0,0,1,vect[2],
-                0,0,0,1
-                );
-    rotationMatrix = trans2*rot1*trans1;
-    model = rotationMatrix*model;*/
-    //model = glm::rotate(model,angle,vecb);
-
-}
-
-void SceneBasic::setView(float x, float y, float z, float x2, float y2, float z2){
-    view = glm::lookAt(vec3(x,y,z), vec3(x2,y2,z2), vec3(0.0f,1.0f,0.0f));
+void SceneBasic::updateView(float eX, float eY, float eZ, float directX, float directY, float directZ){
+    view = glm::lookAt(vec3(eX,eY,eZ), vec3(directX,directY,directZ), vec3(0.0f,1.0f,0.0f));
 }
