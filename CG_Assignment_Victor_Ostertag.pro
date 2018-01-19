@@ -20,7 +20,9 @@ SOURCES +=\
     mainview.cpp \
     scenebasic.cpp \
     dialogline.cpp \
-    dialogview.cpp
+    dialogview.cpp \
+    dialogcolor.cpp \
+    dialogcolorcube.cpp
 
 HEADERS  += mainwindow.h \
     glslprogram.h \
@@ -29,11 +31,15 @@ HEADERS  += mainwindow.h \
     scene.h \
     scenebasic.h \
     dialogline.h \
-    dialogview.h
+    dialogview.h \
+    dialogcolor.h \
+    dialogcolorcube.h
 
 FORMS    += mainwindow.ui \
     dialogline.ui \
-    dialogview.ui
+    dialogview.ui \
+    dialogcolor.ui \
+    dialogcolorcube.ui
 
 unix|win32: LIBS += -L$$PWD/../../../Documents/Dev/glew-2.1.0/build/lib/ -lGLEW
 

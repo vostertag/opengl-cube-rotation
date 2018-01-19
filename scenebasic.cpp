@@ -15,6 +15,9 @@ using std::ostringstream;
 #include "glm/glm/gtc/matrix_transform.hpp"
 #include "glm/glm/gtx/transform2.hpp"
 
+#include <QDebug>
+
+
 const float PI = 4.0*atan(1.0);
 
 SceneBasic::SceneBasic() : angle(0.0)
@@ -300,4 +303,31 @@ void SceneBasic::rotateModel(float bX, float bY, float bZ,
 
 void SceneBasic::updateView(float eX, float eY, float eZ, float directX, float directY, float directZ){
     view = glm::lookAt(vec3(eX,eY,eZ), vec3(directX,directY,directZ), vec3(0.0f,1.0f,0.0f));
+}
+
+void SceneBasic::setLineColor(float percentRed, float percentGreen, float percentBlue){
+    lineColor[0] = percentRed ,lineColor[3] = percentRed;
+    lineColor[1] = percentGreen, lineColor[4] = percentGreen;
+    lineColor[2] = percentBlue, lineColor[5] = percentBlue;
+    this->CreateVBO();
+}
+
+void SceneBasic::setBackgroundColor(float percentRed, float percentGreen, float percentBlue){
+    glClearColor( percentRed, percentGreen, percentBlue, 1.0 );
+}
+
+void SceneBasic::defaultCubePosition(){
+    model = mat4(1.0f);
+    updateView(0,0,2,0,0,0);
+}
+
+void SceneBasic::setCubeColor(vec3 colors[6]){
+    for(int k=0; k<6; k++){
+        for(int i=0; i<6; i++){
+            colorData[i*3+k*18] = colors[k].x;
+            colorData[i*3+k*18+1] = colors[k].y;
+            colorData[i*3+k*18+2] = colors[k].z;
+        }
+    }
+    this->CreateVBO();
 }

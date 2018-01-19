@@ -56,6 +56,10 @@ public:
     void printActiveUniforms(GLuint programHandle);
     void printActiveAttribs(GLuint programHandle);
     void updateView(float eX, float eY, float eZ, float directX, float directY, float directZ);
+    void setLineColor(float percentRed, float percentGreen, float percentBlue);
+    void setBackgroundColor(float percentRed, float percentGreen, float percentBlue);
+    void defaultCubePosition();
+    void setCubeColor(vec3 colors[6]);
 };
 
 #endif // SCENEBASIC_H

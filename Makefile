@@ -55,10 +55,14 @@ SOURCES       = mainwindow.cpp \
 		mainview.cpp \
 		scenebasic.cpp \
 		dialogline.cpp \
-		dialogview.cpp moc_mainwindow.cpp \
+		dialogview.cpp \
+		dialogcolor.cpp \
+		dialogcolorcube.cpp moc_mainwindow.cpp \
 		moc_mainview.cpp \
 		moc_dialogline.cpp \
-		moc_dialogview.cpp
+		moc_dialogview.cpp \
+		moc_dialogcolor.cpp \
+		moc_dialogcolorcube.cpp
 OBJECTS       = mainwindow.o \
 		glslprogram.o \
 		glutils.o \
@@ -67,10 +71,14 @@ OBJECTS       = mainwindow.o \
 		scenebasic.o \
 		dialogline.o \
 		dialogview.o \
+		dialogcolor.o \
+		dialogcolorcube.o \
 		moc_mainwindow.o \
 		moc_mainview.o \
 		moc_dialogline.o \
-		moc_dialogview.o
+		moc_dialogview.o \
+		moc_dialogcolor.o \
+		moc_dialogcolorcube.o
 DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/unix.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/linux.conf \
@@ -134,14 +142,18 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		scene.h \
 		scenebasic.h \
 		dialogline.h \
-		dialogview.h mainwindow.cpp \
+		dialogview.h \
+		dialogcolor.h \
+		dialogcolorcube.h mainwindow.cpp \
 		glslprogram.cpp \
 		glutils.cpp \
 		main.cpp \
 		mainview.cpp \
 		scenebasic.cpp \
 		dialogline.cpp \
-		dialogview.cpp
+		dialogview.cpp \
+		dialogcolor.cpp \
+		dialogcolorcube.cpp
 QMAKE_TARGET  = CG_Assignment_Victor_Ostertag
 DESTDIR       = #avoid trailing-slash linebreak
 TARGET        = CG_Assignment_Victor_Ostertag
@@ -169,7 +181,7 @@ first: all
 
 ####### Build rules
 
-$(TARGET): /home/victor/Qt/Projects/CG_Assignment_Victor_Ostertag/../../../Documents/Dev/glew-2.1.0/build/lib/libGLEW.a ui_mainwindow.h ui_dialogline.h ui_dialogview.h $(OBJECTS)  
+$(TARGET): /home/victor/Qt/Projects/CG_Assignment_Victor_Ostertag/../../../Documents/Dev/glew-2.1.0/build/lib/libGLEW.a ui_mainwindow.h ui_dialogline.h ui_dialogview.h ui_dialogcolor.h ui_dialogcolorcube.h $(OBJECTS)  
 	$(LINK) $(LFLAGS) -o $(TARGET) $(OBJECTS) $(OBJCOMP) $(LIBS)
 
 Makefile: CG_Assignment_Victor_Ostertag.pro /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64/qmake.conf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
@@ -309,9 +321,9 @@ dist: distdir FORCE
 distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
-	$(COPY_FILE) --parents mainwindow.h glslprogram.h glutils.h mainview.h scene.h scenebasic.h dialogline.h dialogview.h $(DISTDIR)/
-	$(COPY_FILE) --parents mainwindow.cpp glslprogram.cpp glutils.cpp main.cpp mainview.cpp scenebasic.cpp dialogline.cpp dialogview.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents mainwindow.ui dialogline.ui dialogview.ui $(DISTDIR)/
+	$(COPY_FILE) --parents mainwindow.h glslprogram.h glutils.h mainview.h scene.h scenebasic.h dialogline.h dialogview.h dialogcolor.h dialogcolorcube.h $(DISTDIR)/
+	$(COPY_FILE) --parents mainwindow.cpp glslprogram.cpp glutils.cpp main.cpp mainview.cpp scenebasic.cpp dialogline.cpp dialogview.cpp dialogcolor.cpp dialogcolorcube.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents mainwindow.ui dialogline.ui dialogview.ui dialogcolor.ui dialogcolorcube.ui $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -334,39 +346,605 @@ check: first
 
 compiler_rcc_make_all:
 compiler_rcc_clean:
-compiler_moc_header_make_all: moc_mainwindow.cpp moc_mainview.cpp moc_dialogline.cpp moc_dialogview.cpp
+compiler_moc_header_make_all: moc_mainwindow.cpp moc_mainview.cpp moc_dialogline.cpp moc_dialogview.cpp moc_dialogcolor.cpp moc_dialogcolorcube.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_mainwindow.cpp moc_mainview.cpp moc_dialogline.cpp moc_dialogview.cpp
+	-$(DEL_FILE) moc_mainwindow.cpp moc_mainview.cpp moc_dialogline.cpp moc_dialogview.cpp moc_dialogcolor.cpp moc_dialogcolorcube.cpp
 moc_mainwindow.cpp: mainview.h \
 		glew/include/GL/glew.h \
 		scene.h \
+		glm/glm/glm.hpp \
+		glm/glm/detail/_fixes.hpp \
+		glm/glm/fwd.hpp \
+		glm/glm/detail/type_int.hpp \
+		glm/glm/detail/setup.hpp \
+		glm/glm/simd/platform.h \
+		glm/glm/detail/type_float.hpp \
+		glm/glm/detail/type_vec.hpp \
+		glm/glm/detail/precision.hpp \
+		glm/glm/detail/type_mat.hpp \
+		glm/glm/vec2.hpp \
+		glm/glm/detail/type_vec2.hpp \
+		glm/glm/detail/_swizzle.hpp \
+		glm/glm/detail/_swizzle_func.hpp \
+		glm/glm/detail/type_vec2.inl \
+		glm/glm/vec3.hpp \
+		glm/glm/detail/type_vec3.hpp \
+		glm/glm/detail/type_vec3.inl \
+		glm/glm/vec4.hpp \
+		glm/glm/detail/type_vec4.hpp \
+		glm/glm/detail/type_vec4.inl \
+		glm/glm/detail/type_vec4_simd.inl \
+		glm/glm/mat2x2.hpp \
+		glm/glm/detail/type_mat2x2.hpp \
+		glm/glm/detail/type_mat2x2.inl \
+		glm/glm/detail/func_matrix.hpp \
+		glm/glm/mat2x3.hpp \
+		glm/glm/detail/type_mat2x3.hpp \
+		glm/glm/detail/type_mat2x3.inl \
+		glm/glm/mat2x4.hpp \
+		glm/glm/detail/type_mat2x4.hpp \
+		glm/glm/detail/type_mat2x4.inl \
+		glm/glm/mat3x2.hpp \
+		glm/glm/detail/type_mat3x2.hpp \
+		glm/glm/detail/type_mat3x2.inl \
+		glm/glm/mat3x3.hpp \
+		glm/glm/detail/type_mat3x3.hpp \
+		glm/glm/detail/type_mat3x3.inl \
+		glm/glm/mat3x4.hpp \
+		glm/glm/detail/type_mat3x4.hpp \
+		glm/glm/detail/type_mat3x4.inl \
+		glm/glm/mat4x2.hpp \
+		glm/glm/detail/type_mat4x2.hpp \
+		glm/glm/detail/type_mat4x2.inl \
+		glm/glm/mat4x3.hpp \
+		glm/glm/detail/type_mat4x3.hpp \
+		glm/glm/detail/type_mat4x3.inl \
+		glm/glm/mat4x4.hpp \
+		glm/glm/detail/type_mat4x4.hpp \
+		glm/glm/detail/type_mat4x4.inl \
+		glm/glm/detail/type_mat4x4_simd.inl \
+		glm/glm/detail/func_matrix.inl \
+		glm/glm/geometric.hpp \
+		glm/glm/detail/func_geometric.hpp \
+		glm/glm/detail/func_geometric.inl \
+		glm/glm/detail/func_exponential.hpp \
+		glm/glm/detail/type_vec1.hpp \
+		glm/glm/detail/type_vec1.inl \
+		glm/glm/detail/func_exponential.inl \
+		glm/glm/detail/func_vector_relational.hpp \
+		glm/glm/detail/func_vector_relational.inl \
+		glm/glm/detail/func_vector_relational_simd.inl \
+		glm/glm/detail/_vectorize.hpp \
+		glm/glm/detail/func_exponential_simd.inl \
+		glm/glm/simd/exponential.h \
+		glm/glm/detail/func_common.hpp \
+		glm/glm/detail/func_common.inl \
+		glm/glm/detail/func_common_simd.inl \
+		glm/glm/simd/common.h \
+		glm/glm/detail/func_geometric_simd.inl \
+		glm/glm/simd/geometric.h \
+		glm/glm/detail/func_matrix_simd.inl \
+		glm/glm/simd/matrix.h \
+		glm/glm/trigonometric.hpp \
+		glm/glm/detail/func_trigonometric.hpp \
+		glm/glm/detail/func_trigonometric.inl \
+		glm/glm/detail/func_trigonometric_simd.inl \
+		glm/glm/exponential.hpp \
+		glm/glm/common.hpp \
+		glm/glm/packing.hpp \
+		glm/glm/detail/func_packing.hpp \
+		glm/glm/detail/func_packing.inl \
+		glm/glm/detail/type_half.hpp \
+		glm/glm/detail/type_half.inl \
+		glm/glm/detail/func_packing_simd.inl \
+		glm/glm/matrix.hpp \
+		glm/glm/vector_relational.hpp \
+		glm/glm/integer.hpp \
+		glm/glm/detail/func_integer.hpp \
+		glm/glm/detail/func_integer.inl \
+		glm/glm/detail/func_integer_simd.inl \
+		glm/glm/simd/integer.h \
 		dialogline.h \
 		dialogview.h \
+		dialogcolor.h \
+		dialogcolorcube.h \
 		mainwindow.h
 	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -I/home/victor/Qt/Projects/CG_Assignment_Victor_Ostertag -I/home/victor/Documents/Dev/glew-2.1.0/build -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtOpenGL -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/5 -I/usr/include/x86_64-linux-gnu/c++/5 -I/usr/include/c++/5/backward -I/usr/lib/gcc/x86_64-linux-gnu/5/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include mainwindow.h -o moc_mainwindow.cpp
 
 moc_mainview.cpp: glew/include/GL/glew.h \
 		scene.h \
+		glm/glm/glm.hpp \
+		glm/glm/detail/_fixes.hpp \
+		glm/glm/fwd.hpp \
+		glm/glm/detail/type_int.hpp \
+		glm/glm/detail/setup.hpp \
+		glm/glm/simd/platform.h \
+		glm/glm/detail/type_float.hpp \
+		glm/glm/detail/type_vec.hpp \
+		glm/glm/detail/precision.hpp \
+		glm/glm/detail/type_mat.hpp \
+		glm/glm/vec2.hpp \
+		glm/glm/detail/type_vec2.hpp \
+		glm/glm/detail/_swizzle.hpp \
+		glm/glm/detail/_swizzle_func.hpp \
+		glm/glm/detail/type_vec2.inl \
+		glm/glm/vec3.hpp \
+		glm/glm/detail/type_vec3.hpp \
+		glm/glm/detail/type_vec3.inl \
+		glm/glm/vec4.hpp \
+		glm/glm/detail/type_vec4.hpp \
+		glm/glm/detail/type_vec4.inl \
+		glm/glm/detail/type_vec4_simd.inl \
+		glm/glm/mat2x2.hpp \
+		glm/glm/detail/type_mat2x2.hpp \
+		glm/glm/detail/type_mat2x2.inl \
+		glm/glm/detail/func_matrix.hpp \
+		glm/glm/mat2x3.hpp \
+		glm/glm/detail/type_mat2x3.hpp \
+		glm/glm/detail/type_mat2x3.inl \
+		glm/glm/mat2x4.hpp \
+		glm/glm/detail/type_mat2x4.hpp \
+		glm/glm/detail/type_mat2x4.inl \
+		glm/glm/mat3x2.hpp \
+		glm/glm/detail/type_mat3x2.hpp \
+		glm/glm/detail/type_mat3x2.inl \
+		glm/glm/mat3x3.hpp \
+		glm/glm/detail/type_mat3x3.hpp \
+		glm/glm/detail/type_mat3x3.inl \
+		glm/glm/mat3x4.hpp \
+		glm/glm/detail/type_mat3x4.hpp \
+		glm/glm/detail/type_mat3x4.inl \
+		glm/glm/mat4x2.hpp \
+		glm/glm/detail/type_mat4x2.hpp \
+		glm/glm/detail/type_mat4x2.inl \
+		glm/glm/mat4x3.hpp \
+		glm/glm/detail/type_mat4x3.hpp \
+		glm/glm/detail/type_mat4x3.inl \
+		glm/glm/mat4x4.hpp \
+		glm/glm/detail/type_mat4x4.hpp \
+		glm/glm/detail/type_mat4x4.inl \
+		glm/glm/detail/type_mat4x4_simd.inl \
+		glm/glm/detail/func_matrix.inl \
+		glm/glm/geometric.hpp \
+		glm/glm/detail/func_geometric.hpp \
+		glm/glm/detail/func_geometric.inl \
+		glm/glm/detail/func_exponential.hpp \
+		glm/glm/detail/type_vec1.hpp \
+		glm/glm/detail/type_vec1.inl \
+		glm/glm/detail/func_exponential.inl \
+		glm/glm/detail/func_vector_relational.hpp \
+		glm/glm/detail/func_vector_relational.inl \
+		glm/glm/detail/func_vector_relational_simd.inl \
+		glm/glm/detail/_vectorize.hpp \
+		glm/glm/detail/func_exponential_simd.inl \
+		glm/glm/simd/exponential.h \
+		glm/glm/detail/func_common.hpp \
+		glm/glm/detail/func_common.inl \
+		glm/glm/detail/func_common_simd.inl \
+		glm/glm/simd/common.h \
+		glm/glm/detail/func_geometric_simd.inl \
+		glm/glm/simd/geometric.h \
+		glm/glm/detail/func_matrix_simd.inl \
+		glm/glm/simd/matrix.h \
+		glm/glm/trigonometric.hpp \
+		glm/glm/detail/func_trigonometric.hpp \
+		glm/glm/detail/func_trigonometric.inl \
+		glm/glm/detail/func_trigonometric_simd.inl \
+		glm/glm/exponential.hpp \
+		glm/glm/common.hpp \
+		glm/glm/packing.hpp \
+		glm/glm/detail/func_packing.hpp \
+		glm/glm/detail/func_packing.inl \
+		glm/glm/detail/type_half.hpp \
+		glm/glm/detail/type_half.inl \
+		glm/glm/detail/func_packing_simd.inl \
+		glm/glm/matrix.hpp \
+		glm/glm/vector_relational.hpp \
+		glm/glm/integer.hpp \
+		glm/glm/detail/func_integer.hpp \
+		glm/glm/detail/func_integer.inl \
+		glm/glm/detail/func_integer_simd.inl \
+		glm/glm/simd/integer.h \
 		mainview.h
 	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -I/home/victor/Qt/Projects/CG_Assignment_Victor_Ostertag -I/home/victor/Documents/Dev/glew-2.1.0/build -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtOpenGL -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/5 -I/usr/include/x86_64-linux-gnu/c++/5 -I/usr/include/c++/5/backward -I/usr/lib/gcc/x86_64-linux-gnu/5/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include mainview.h -o moc_mainview.cpp
 
 moc_dialogline.cpp: mainview.h \
 		glew/include/GL/glew.h \
 		scene.h \
+		glm/glm/glm.hpp \
+		glm/glm/detail/_fixes.hpp \
+		glm/glm/fwd.hpp \
+		glm/glm/detail/type_int.hpp \
+		glm/glm/detail/setup.hpp \
+		glm/glm/simd/platform.h \
+		glm/glm/detail/type_float.hpp \
+		glm/glm/detail/type_vec.hpp \
+		glm/glm/detail/precision.hpp \
+		glm/glm/detail/type_mat.hpp \
+		glm/glm/vec2.hpp \
+		glm/glm/detail/type_vec2.hpp \
+		glm/glm/detail/_swizzle.hpp \
+		glm/glm/detail/_swizzle_func.hpp \
+		glm/glm/detail/type_vec2.inl \
+		glm/glm/vec3.hpp \
+		glm/glm/detail/type_vec3.hpp \
+		glm/glm/detail/type_vec3.inl \
+		glm/glm/vec4.hpp \
+		glm/glm/detail/type_vec4.hpp \
+		glm/glm/detail/type_vec4.inl \
+		glm/glm/detail/type_vec4_simd.inl \
+		glm/glm/mat2x2.hpp \
+		glm/glm/detail/type_mat2x2.hpp \
+		glm/glm/detail/type_mat2x2.inl \
+		glm/glm/detail/func_matrix.hpp \
+		glm/glm/mat2x3.hpp \
+		glm/glm/detail/type_mat2x3.hpp \
+		glm/glm/detail/type_mat2x3.inl \
+		glm/glm/mat2x4.hpp \
+		glm/glm/detail/type_mat2x4.hpp \
+		glm/glm/detail/type_mat2x4.inl \
+		glm/glm/mat3x2.hpp \
+		glm/glm/detail/type_mat3x2.hpp \
+		glm/glm/detail/type_mat3x2.inl \
+		glm/glm/mat3x3.hpp \
+		glm/glm/detail/type_mat3x3.hpp \
+		glm/glm/detail/type_mat3x3.inl \
+		glm/glm/mat3x4.hpp \
+		glm/glm/detail/type_mat3x4.hpp \
+		glm/glm/detail/type_mat3x4.inl \
+		glm/glm/mat4x2.hpp \
+		glm/glm/detail/type_mat4x2.hpp \
+		glm/glm/detail/type_mat4x2.inl \
+		glm/glm/mat4x3.hpp \
+		glm/glm/detail/type_mat4x3.hpp \
+		glm/glm/detail/type_mat4x3.inl \
+		glm/glm/mat4x4.hpp \
+		glm/glm/detail/type_mat4x4.hpp \
+		glm/glm/detail/type_mat4x4.inl \
+		glm/glm/detail/type_mat4x4_simd.inl \
+		glm/glm/detail/func_matrix.inl \
+		glm/glm/geometric.hpp \
+		glm/glm/detail/func_geometric.hpp \
+		glm/glm/detail/func_geometric.inl \
+		glm/glm/detail/func_exponential.hpp \
+		glm/glm/detail/type_vec1.hpp \
+		glm/glm/detail/type_vec1.inl \
+		glm/glm/detail/func_exponential.inl \
+		glm/glm/detail/func_vector_relational.hpp \
+		glm/glm/detail/func_vector_relational.inl \
+		glm/glm/detail/func_vector_relational_simd.inl \
+		glm/glm/detail/_vectorize.hpp \
+		glm/glm/detail/func_exponential_simd.inl \
+		glm/glm/simd/exponential.h \
+		glm/glm/detail/func_common.hpp \
+		glm/glm/detail/func_common.inl \
+		glm/glm/detail/func_common_simd.inl \
+		glm/glm/simd/common.h \
+		glm/glm/detail/func_geometric_simd.inl \
+		glm/glm/simd/geometric.h \
+		glm/glm/detail/func_matrix_simd.inl \
+		glm/glm/simd/matrix.h \
+		glm/glm/trigonometric.hpp \
+		glm/glm/detail/func_trigonometric.hpp \
+		glm/glm/detail/func_trigonometric.inl \
+		glm/glm/detail/func_trigonometric_simd.inl \
+		glm/glm/exponential.hpp \
+		glm/glm/common.hpp \
+		glm/glm/packing.hpp \
+		glm/glm/detail/func_packing.hpp \
+		glm/glm/detail/func_packing.inl \
+		glm/glm/detail/type_half.hpp \
+		glm/glm/detail/type_half.inl \
+		glm/glm/detail/func_packing_simd.inl \
+		glm/glm/matrix.hpp \
+		glm/glm/vector_relational.hpp \
+		glm/glm/integer.hpp \
+		glm/glm/detail/func_integer.hpp \
+		glm/glm/detail/func_integer.inl \
+		glm/glm/detail/func_integer_simd.inl \
+		glm/glm/simd/integer.h \
 		dialogline.h
 	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -I/home/victor/Qt/Projects/CG_Assignment_Victor_Ostertag -I/home/victor/Documents/Dev/glew-2.1.0/build -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtOpenGL -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/5 -I/usr/include/x86_64-linux-gnu/c++/5 -I/usr/include/c++/5/backward -I/usr/lib/gcc/x86_64-linux-gnu/5/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include dialogline.h -o moc_dialogline.cpp
 
 moc_dialogview.cpp: mainview.h \
 		glew/include/GL/glew.h \
 		scene.h \
+		glm/glm/glm.hpp \
+		glm/glm/detail/_fixes.hpp \
+		glm/glm/fwd.hpp \
+		glm/glm/detail/type_int.hpp \
+		glm/glm/detail/setup.hpp \
+		glm/glm/simd/platform.h \
+		glm/glm/detail/type_float.hpp \
+		glm/glm/detail/type_vec.hpp \
+		glm/glm/detail/precision.hpp \
+		glm/glm/detail/type_mat.hpp \
+		glm/glm/vec2.hpp \
+		glm/glm/detail/type_vec2.hpp \
+		glm/glm/detail/_swizzle.hpp \
+		glm/glm/detail/_swizzle_func.hpp \
+		glm/glm/detail/type_vec2.inl \
+		glm/glm/vec3.hpp \
+		glm/glm/detail/type_vec3.hpp \
+		glm/glm/detail/type_vec3.inl \
+		glm/glm/vec4.hpp \
+		glm/glm/detail/type_vec4.hpp \
+		glm/glm/detail/type_vec4.inl \
+		glm/glm/detail/type_vec4_simd.inl \
+		glm/glm/mat2x2.hpp \
+		glm/glm/detail/type_mat2x2.hpp \
+		glm/glm/detail/type_mat2x2.inl \
+		glm/glm/detail/func_matrix.hpp \
+		glm/glm/mat2x3.hpp \
+		glm/glm/detail/type_mat2x3.hpp \
+		glm/glm/detail/type_mat2x3.inl \
+		glm/glm/mat2x4.hpp \
+		glm/glm/detail/type_mat2x4.hpp \
+		glm/glm/detail/type_mat2x4.inl \
+		glm/glm/mat3x2.hpp \
+		glm/glm/detail/type_mat3x2.hpp \
+		glm/glm/detail/type_mat3x2.inl \
+		glm/glm/mat3x3.hpp \
+		glm/glm/detail/type_mat3x3.hpp \
+		glm/glm/detail/type_mat3x3.inl \
+		glm/glm/mat3x4.hpp \
+		glm/glm/detail/type_mat3x4.hpp \
+		glm/glm/detail/type_mat3x4.inl \
+		glm/glm/mat4x2.hpp \
+		glm/glm/detail/type_mat4x2.hpp \
+		glm/glm/detail/type_mat4x2.inl \
+		glm/glm/mat4x3.hpp \
+		glm/glm/detail/type_mat4x3.hpp \
+		glm/glm/detail/type_mat4x3.inl \
+		glm/glm/mat4x4.hpp \
+		glm/glm/detail/type_mat4x4.hpp \
+		glm/glm/detail/type_mat4x4.inl \
+		glm/glm/detail/type_mat4x4_simd.inl \
+		glm/glm/detail/func_matrix.inl \
+		glm/glm/geometric.hpp \
+		glm/glm/detail/func_geometric.hpp \
+		glm/glm/detail/func_geometric.inl \
+		glm/glm/detail/func_exponential.hpp \
+		glm/glm/detail/type_vec1.hpp \
+		glm/glm/detail/type_vec1.inl \
+		glm/glm/detail/func_exponential.inl \
+		glm/glm/detail/func_vector_relational.hpp \
+		glm/glm/detail/func_vector_relational.inl \
+		glm/glm/detail/func_vector_relational_simd.inl \
+		glm/glm/detail/_vectorize.hpp \
+		glm/glm/detail/func_exponential_simd.inl \
+		glm/glm/simd/exponential.h \
+		glm/glm/detail/func_common.hpp \
+		glm/glm/detail/func_common.inl \
+		glm/glm/detail/func_common_simd.inl \
+		glm/glm/simd/common.h \
+		glm/glm/detail/func_geometric_simd.inl \
+		glm/glm/simd/geometric.h \
+		glm/glm/detail/func_matrix_simd.inl \
+		glm/glm/simd/matrix.h \
+		glm/glm/trigonometric.hpp \
+		glm/glm/detail/func_trigonometric.hpp \
+		glm/glm/detail/func_trigonometric.inl \
+		glm/glm/detail/func_trigonometric_simd.inl \
+		glm/glm/exponential.hpp \
+		glm/glm/common.hpp \
+		glm/glm/packing.hpp \
+		glm/glm/detail/func_packing.hpp \
+		glm/glm/detail/func_packing.inl \
+		glm/glm/detail/type_half.hpp \
+		glm/glm/detail/type_half.inl \
+		glm/glm/detail/func_packing_simd.inl \
+		glm/glm/matrix.hpp \
+		glm/glm/vector_relational.hpp \
+		glm/glm/integer.hpp \
+		glm/glm/detail/func_integer.hpp \
+		glm/glm/detail/func_integer.inl \
+		glm/glm/detail/func_integer_simd.inl \
+		glm/glm/simd/integer.h \
 		dialogview.h
 	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -I/home/victor/Qt/Projects/CG_Assignment_Victor_Ostertag -I/home/victor/Documents/Dev/glew-2.1.0/build -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtOpenGL -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/5 -I/usr/include/x86_64-linux-gnu/c++/5 -I/usr/include/c++/5/backward -I/usr/lib/gcc/x86_64-linux-gnu/5/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include dialogview.h -o moc_dialogview.cpp
 
+moc_dialogcolor.cpp: mainview.h \
+		glew/include/GL/glew.h \
+		scene.h \
+		glm/glm/glm.hpp \
+		glm/glm/detail/_fixes.hpp \
+		glm/glm/fwd.hpp \
+		glm/glm/detail/type_int.hpp \
+		glm/glm/detail/setup.hpp \
+		glm/glm/simd/platform.h \
+		glm/glm/detail/type_float.hpp \
+		glm/glm/detail/type_vec.hpp \
+		glm/glm/detail/precision.hpp \
+		glm/glm/detail/type_mat.hpp \
+		glm/glm/vec2.hpp \
+		glm/glm/detail/type_vec2.hpp \
+		glm/glm/detail/_swizzle.hpp \
+		glm/glm/detail/_swizzle_func.hpp \
+		glm/glm/detail/type_vec2.inl \
+		glm/glm/vec3.hpp \
+		glm/glm/detail/type_vec3.hpp \
+		glm/glm/detail/type_vec3.inl \
+		glm/glm/vec4.hpp \
+		glm/glm/detail/type_vec4.hpp \
+		glm/glm/detail/type_vec4.inl \
+		glm/glm/detail/type_vec4_simd.inl \
+		glm/glm/mat2x2.hpp \
+		glm/glm/detail/type_mat2x2.hpp \
+		glm/glm/detail/type_mat2x2.inl \
+		glm/glm/detail/func_matrix.hpp \
+		glm/glm/mat2x3.hpp \
+		glm/glm/detail/type_mat2x3.hpp \
+		glm/glm/detail/type_mat2x3.inl \
+		glm/glm/mat2x4.hpp \
+		glm/glm/detail/type_mat2x4.hpp \
+		glm/glm/detail/type_mat2x4.inl \
+		glm/glm/mat3x2.hpp \
+		glm/glm/detail/type_mat3x2.hpp \
+		glm/glm/detail/type_mat3x2.inl \
+		glm/glm/mat3x3.hpp \
+		glm/glm/detail/type_mat3x3.hpp \
+		glm/glm/detail/type_mat3x3.inl \
+		glm/glm/mat3x4.hpp \
+		glm/glm/detail/type_mat3x4.hpp \
+		glm/glm/detail/type_mat3x4.inl \
+		glm/glm/mat4x2.hpp \
+		glm/glm/detail/type_mat4x2.hpp \
+		glm/glm/detail/type_mat4x2.inl \
+		glm/glm/mat4x3.hpp \
+		glm/glm/detail/type_mat4x3.hpp \
+		glm/glm/detail/type_mat4x3.inl \
+		glm/glm/mat4x4.hpp \
+		glm/glm/detail/type_mat4x4.hpp \
+		glm/glm/detail/type_mat4x4.inl \
+		glm/glm/detail/type_mat4x4_simd.inl \
+		glm/glm/detail/func_matrix.inl \
+		glm/glm/geometric.hpp \
+		glm/glm/detail/func_geometric.hpp \
+		glm/glm/detail/func_geometric.inl \
+		glm/glm/detail/func_exponential.hpp \
+		glm/glm/detail/type_vec1.hpp \
+		glm/glm/detail/type_vec1.inl \
+		glm/glm/detail/func_exponential.inl \
+		glm/glm/detail/func_vector_relational.hpp \
+		glm/glm/detail/func_vector_relational.inl \
+		glm/glm/detail/func_vector_relational_simd.inl \
+		glm/glm/detail/_vectorize.hpp \
+		glm/glm/detail/func_exponential_simd.inl \
+		glm/glm/simd/exponential.h \
+		glm/glm/detail/func_common.hpp \
+		glm/glm/detail/func_common.inl \
+		glm/glm/detail/func_common_simd.inl \
+		glm/glm/simd/common.h \
+		glm/glm/detail/func_geometric_simd.inl \
+		glm/glm/simd/geometric.h \
+		glm/glm/detail/func_matrix_simd.inl \
+		glm/glm/simd/matrix.h \
+		glm/glm/trigonometric.hpp \
+		glm/glm/detail/func_trigonometric.hpp \
+		glm/glm/detail/func_trigonometric.inl \
+		glm/glm/detail/func_trigonometric_simd.inl \
+		glm/glm/exponential.hpp \
+		glm/glm/common.hpp \
+		glm/glm/packing.hpp \
+		glm/glm/detail/func_packing.hpp \
+		glm/glm/detail/func_packing.inl \
+		glm/glm/detail/type_half.hpp \
+		glm/glm/detail/type_half.inl \
+		glm/glm/detail/func_packing_simd.inl \
+		glm/glm/matrix.hpp \
+		glm/glm/vector_relational.hpp \
+		glm/glm/integer.hpp \
+		glm/glm/detail/func_integer.hpp \
+		glm/glm/detail/func_integer.inl \
+		glm/glm/detail/func_integer_simd.inl \
+		glm/glm/simd/integer.h \
+		dialogcolor.h
+	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -I/home/victor/Qt/Projects/CG_Assignment_Victor_Ostertag -I/home/victor/Documents/Dev/glew-2.1.0/build -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtOpenGL -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/5 -I/usr/include/x86_64-linux-gnu/c++/5 -I/usr/include/c++/5/backward -I/usr/lib/gcc/x86_64-linux-gnu/5/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include dialogcolor.h -o moc_dialogcolor.cpp
+
+moc_dialogcolorcube.cpp: mainview.h \
+		glew/include/GL/glew.h \
+		scene.h \
+		glm/glm/glm.hpp \
+		glm/glm/detail/_fixes.hpp \
+		glm/glm/fwd.hpp \
+		glm/glm/detail/type_int.hpp \
+		glm/glm/detail/setup.hpp \
+		glm/glm/simd/platform.h \
+		glm/glm/detail/type_float.hpp \
+		glm/glm/detail/type_vec.hpp \
+		glm/glm/detail/precision.hpp \
+		glm/glm/detail/type_mat.hpp \
+		glm/glm/vec2.hpp \
+		glm/glm/detail/type_vec2.hpp \
+		glm/glm/detail/_swizzle.hpp \
+		glm/glm/detail/_swizzle_func.hpp \
+		glm/glm/detail/type_vec2.inl \
+		glm/glm/vec3.hpp \
+		glm/glm/detail/type_vec3.hpp \
+		glm/glm/detail/type_vec3.inl \
+		glm/glm/vec4.hpp \
+		glm/glm/detail/type_vec4.hpp \
+		glm/glm/detail/type_vec4.inl \
+		glm/glm/detail/type_vec4_simd.inl \
+		glm/glm/mat2x2.hpp \
+		glm/glm/detail/type_mat2x2.hpp \
+		glm/glm/detail/type_mat2x2.inl \
+		glm/glm/detail/func_matrix.hpp \
+		glm/glm/mat2x3.hpp \
+		glm/glm/detail/type_mat2x3.hpp \
+		glm/glm/detail/type_mat2x3.inl \
+		glm/glm/mat2x4.hpp \
+		glm/glm/detail/type_mat2x4.hpp \
+		glm/glm/detail/type_mat2x4.inl \
+		glm/glm/mat3x2.hpp \
+		glm/glm/detail/type_mat3x2.hpp \
+		glm/glm/detail/type_mat3x2.inl \
+		glm/glm/mat3x3.hpp \
+		glm/glm/detail/type_mat3x3.hpp \
+		glm/glm/detail/type_mat3x3.inl \
+		glm/glm/mat3x4.hpp \
+		glm/glm/detail/type_mat3x4.hpp \
+		glm/glm/detail/type_mat3x4.inl \
+		glm/glm/mat4x2.hpp \
+		glm/glm/detail/type_mat4x2.hpp \
+		glm/glm/detail/type_mat4x2.inl \
+		glm/glm/mat4x3.hpp \
+		glm/glm/detail/type_mat4x3.hpp \
+		glm/glm/detail/type_mat4x3.inl \
+		glm/glm/mat4x4.hpp \
+		glm/glm/detail/type_mat4x4.hpp \
+		glm/glm/detail/type_mat4x4.inl \
+		glm/glm/detail/type_mat4x4_simd.inl \
+		glm/glm/detail/func_matrix.inl \
+		glm/glm/geometric.hpp \
+		glm/glm/detail/func_geometric.hpp \
+		glm/glm/detail/func_geometric.inl \
+		glm/glm/detail/func_exponential.hpp \
+		glm/glm/detail/type_vec1.hpp \
+		glm/glm/detail/type_vec1.inl \
+		glm/glm/detail/func_exponential.inl \
+		glm/glm/detail/func_vector_relational.hpp \
+		glm/glm/detail/func_vector_relational.inl \
+		glm/glm/detail/func_vector_relational_simd.inl \
+		glm/glm/detail/_vectorize.hpp \
+		glm/glm/detail/func_exponential_simd.inl \
+		glm/glm/simd/exponential.h \
+		glm/glm/detail/func_common.hpp \
+		glm/glm/detail/func_common.inl \
+		glm/glm/detail/func_common_simd.inl \
+		glm/glm/simd/common.h \
+		glm/glm/detail/func_geometric_simd.inl \
+		glm/glm/simd/geometric.h \
+		glm/glm/detail/func_matrix_simd.inl \
+		glm/glm/simd/matrix.h \
+		glm/glm/trigonometric.hpp \
+		glm/glm/detail/func_trigonometric.hpp \
+		glm/glm/detail/func_trigonometric.inl \
+		glm/glm/detail/func_trigonometric_simd.inl \
+		glm/glm/exponential.hpp \
+		glm/glm/common.hpp \
+		glm/glm/packing.hpp \
+		glm/glm/detail/func_packing.hpp \
+		glm/glm/detail/func_packing.inl \
+		glm/glm/detail/type_half.hpp \
+		glm/glm/detail/type_half.inl \
+		glm/glm/detail/func_packing_simd.inl \
+		glm/glm/matrix.hpp \
+		glm/glm/vector_relational.hpp \
+		glm/glm/integer.hpp \
+		glm/glm/detail/func_integer.hpp \
+		glm/glm/detail/func_integer.inl \
+		glm/glm/detail/func_integer_simd.inl \
+		glm/glm/simd/integer.h \
+		dialogcolorcube.h
+	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -I/home/victor/Qt/Projects/CG_Assignment_Victor_Ostertag -I/home/victor/Documents/Dev/glew-2.1.0/build -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtOpenGL -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/5 -I/usr/include/x86_64-linux-gnu/c++/5 -I/usr/include/c++/5/backward -I/usr/lib/gcc/x86_64-linux-gnu/5/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include dialogcolorcube.h -o moc_dialogcolorcube.cpp
+
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
-compiler_uic_make_all: ui_mainwindow.h ui_dialogline.h ui_dialogview.h
+compiler_uic_make_all: ui_mainwindow.h ui_dialogline.h ui_dialogview.h ui_dialogcolor.h ui_dialogcolorcube.h
 compiler_uic_clean:
-	-$(DEL_FILE) ui_mainwindow.h ui_dialogline.h ui_dialogview.h
+	-$(DEL_FILE) ui_mainwindow.h ui_dialogline.h ui_dialogview.h ui_dialogcolor.h ui_dialogcolorcube.h
 ui_mainwindow.h: mainwindow.ui
 	/usr/lib/x86_64-linux-gnu/qt5/bin/uic mainwindow.ui -o ui_mainwindow.h
 
@@ -375,6 +953,12 @@ ui_dialogline.h: dialogline.ui
 
 ui_dialogview.h: dialogview.ui
 	/usr/lib/x86_64-linux-gnu/qt5/bin/uic dialogview.ui -o ui_dialogview.h
+
+ui_dialogcolor.h: dialogcolor.ui
+	/usr/lib/x86_64-linux-gnu/qt5/bin/uic dialogcolor.ui -o ui_dialogcolor.h
+
+ui_dialogcolorcube.h: dialogcolorcube.ui
+	/usr/lib/x86_64-linux-gnu/qt5/bin/uic dialogcolorcube.ui -o ui_dialogcolorcube.h
 
 compiler_yacc_decl_make_all:
 compiler_yacc_decl_clean:
@@ -390,8 +974,102 @@ mainwindow.o: mainwindow.cpp mainwindow.h \
 		mainview.h \
 		glew/include/GL/glew.h \
 		scene.h \
+		glm/glm/glm.hpp \
+		glm/glm/detail/_fixes.hpp \
+		glm/glm/fwd.hpp \
+		glm/glm/detail/type_int.hpp \
+		glm/glm/detail/setup.hpp \
+		glm/glm/simd/platform.h \
+		glm/glm/detail/type_float.hpp \
+		glm/glm/detail/type_vec.hpp \
+		glm/glm/detail/precision.hpp \
+		glm/glm/detail/type_mat.hpp \
+		glm/glm/vec2.hpp \
+		glm/glm/detail/type_vec2.hpp \
+		glm/glm/detail/_swizzle.hpp \
+		glm/glm/detail/_swizzle_func.hpp \
+		glm/glm/detail/type_vec2.inl \
+		glm/glm/vec3.hpp \
+		glm/glm/detail/type_vec3.hpp \
+		glm/glm/detail/type_vec3.inl \
+		glm/glm/vec4.hpp \
+		glm/glm/detail/type_vec4.hpp \
+		glm/glm/detail/type_vec4.inl \
+		glm/glm/detail/type_vec4_simd.inl \
+		glm/glm/mat2x2.hpp \
+		glm/glm/detail/type_mat2x2.hpp \
+		glm/glm/detail/type_mat2x2.inl \
+		glm/glm/detail/func_matrix.hpp \
+		glm/glm/mat2x3.hpp \
+		glm/glm/detail/type_mat2x3.hpp \
+		glm/glm/detail/type_mat2x3.inl \
+		glm/glm/mat2x4.hpp \
+		glm/glm/detail/type_mat2x4.hpp \
+		glm/glm/detail/type_mat2x4.inl \
+		glm/glm/mat3x2.hpp \
+		glm/glm/detail/type_mat3x2.hpp \
+		glm/glm/detail/type_mat3x2.inl \
+		glm/glm/mat3x3.hpp \
+		glm/glm/detail/type_mat3x3.hpp \
+		glm/glm/detail/type_mat3x3.inl \
+		glm/glm/mat3x4.hpp \
+		glm/glm/detail/type_mat3x4.hpp \
+		glm/glm/detail/type_mat3x4.inl \
+		glm/glm/mat4x2.hpp \
+		glm/glm/detail/type_mat4x2.hpp \
+		glm/glm/detail/type_mat4x2.inl \
+		glm/glm/mat4x3.hpp \
+		glm/glm/detail/type_mat4x3.hpp \
+		glm/glm/detail/type_mat4x3.inl \
+		glm/glm/mat4x4.hpp \
+		glm/glm/detail/type_mat4x4.hpp \
+		glm/glm/detail/type_mat4x4.inl \
+		glm/glm/detail/type_mat4x4_simd.inl \
+		glm/glm/detail/func_matrix.inl \
+		glm/glm/geometric.hpp \
+		glm/glm/detail/func_geometric.hpp \
+		glm/glm/detail/func_geometric.inl \
+		glm/glm/detail/func_exponential.hpp \
+		glm/glm/detail/type_vec1.hpp \
+		glm/glm/detail/type_vec1.inl \
+		glm/glm/detail/func_exponential.inl \
+		glm/glm/detail/func_vector_relational.hpp \
+		glm/glm/detail/func_vector_relational.inl \
+		glm/glm/detail/func_vector_relational_simd.inl \
+		glm/glm/detail/_vectorize.hpp \
+		glm/glm/detail/func_exponential_simd.inl \
+		glm/glm/simd/exponential.h \
+		glm/glm/detail/func_common.hpp \
+		glm/glm/detail/func_common.inl \
+		glm/glm/detail/func_common_simd.inl \
+		glm/glm/simd/common.h \
+		glm/glm/detail/func_geometric_simd.inl \
+		glm/glm/simd/geometric.h \
+		glm/glm/detail/func_matrix_simd.inl \
+		glm/glm/simd/matrix.h \
+		glm/glm/trigonometric.hpp \
+		glm/glm/detail/func_trigonometric.hpp \
+		glm/glm/detail/func_trigonometric.inl \
+		glm/glm/detail/func_trigonometric_simd.inl \
+		glm/glm/exponential.hpp \
+		glm/glm/common.hpp \
+		glm/glm/packing.hpp \
+		glm/glm/detail/func_packing.hpp \
+		glm/glm/detail/func_packing.inl \
+		glm/glm/detail/type_half.hpp \
+		glm/glm/detail/type_half.inl \
+		glm/glm/detail/func_packing_simd.inl \
+		glm/glm/matrix.hpp \
+		glm/glm/vector_relational.hpp \
+		glm/glm/integer.hpp \
+		glm/glm/detail/func_integer.hpp \
+		glm/glm/detail/func_integer.inl \
+		glm/glm/detail/func_integer_simd.inl \
+		glm/glm/simd/integer.h \
 		dialogline.h \
 		dialogview.h \
+		dialogcolor.h \
+		dialogcolorcube.h \
 		ui_mainwindow.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o mainwindow.cpp
 
@@ -500,15 +1178,107 @@ main.o: main.cpp mainwindow.h \
 		mainview.h \
 		glew/include/GL/glew.h \
 		scene.h \
+		glm/glm/glm.hpp \
+		glm/glm/detail/_fixes.hpp \
+		glm/glm/fwd.hpp \
+		glm/glm/detail/type_int.hpp \
+		glm/glm/detail/setup.hpp \
+		glm/glm/simd/platform.h \
+		glm/glm/detail/type_float.hpp \
+		glm/glm/detail/type_vec.hpp \
+		glm/glm/detail/precision.hpp \
+		glm/glm/detail/type_mat.hpp \
+		glm/glm/vec2.hpp \
+		glm/glm/detail/type_vec2.hpp \
+		glm/glm/detail/_swizzle.hpp \
+		glm/glm/detail/_swizzle_func.hpp \
+		glm/glm/detail/type_vec2.inl \
+		glm/glm/vec3.hpp \
+		glm/glm/detail/type_vec3.hpp \
+		glm/glm/detail/type_vec3.inl \
+		glm/glm/vec4.hpp \
+		glm/glm/detail/type_vec4.hpp \
+		glm/glm/detail/type_vec4.inl \
+		glm/glm/detail/type_vec4_simd.inl \
+		glm/glm/mat2x2.hpp \
+		glm/glm/detail/type_mat2x2.hpp \
+		glm/glm/detail/type_mat2x2.inl \
+		glm/glm/detail/func_matrix.hpp \
+		glm/glm/mat2x3.hpp \
+		glm/glm/detail/type_mat2x3.hpp \
+		glm/glm/detail/type_mat2x3.inl \
+		glm/glm/mat2x4.hpp \
+		glm/glm/detail/type_mat2x4.hpp \
+		glm/glm/detail/type_mat2x4.inl \
+		glm/glm/mat3x2.hpp \
+		glm/glm/detail/type_mat3x2.hpp \
+		glm/glm/detail/type_mat3x2.inl \
+		glm/glm/mat3x3.hpp \
+		glm/glm/detail/type_mat3x3.hpp \
+		glm/glm/detail/type_mat3x3.inl \
+		glm/glm/mat3x4.hpp \
+		glm/glm/detail/type_mat3x4.hpp \
+		glm/glm/detail/type_mat3x4.inl \
+		glm/glm/mat4x2.hpp \
+		glm/glm/detail/type_mat4x2.hpp \
+		glm/glm/detail/type_mat4x2.inl \
+		glm/glm/mat4x3.hpp \
+		glm/glm/detail/type_mat4x3.hpp \
+		glm/glm/detail/type_mat4x3.inl \
+		glm/glm/mat4x4.hpp \
+		glm/glm/detail/type_mat4x4.hpp \
+		glm/glm/detail/type_mat4x4.inl \
+		glm/glm/detail/type_mat4x4_simd.inl \
+		glm/glm/detail/func_matrix.inl \
+		glm/glm/geometric.hpp \
+		glm/glm/detail/func_geometric.hpp \
+		glm/glm/detail/func_geometric.inl \
+		glm/glm/detail/func_exponential.hpp \
+		glm/glm/detail/type_vec1.hpp \
+		glm/glm/detail/type_vec1.inl \
+		glm/glm/detail/func_exponential.inl \
+		glm/glm/detail/func_vector_relational.hpp \
+		glm/glm/detail/func_vector_relational.inl \
+		glm/glm/detail/func_vector_relational_simd.inl \
+		glm/glm/detail/_vectorize.hpp \
+		glm/glm/detail/func_exponential_simd.inl \
+		glm/glm/simd/exponential.h \
+		glm/glm/detail/func_common.hpp \
+		glm/glm/detail/func_common.inl \
+		glm/glm/detail/func_common_simd.inl \
+		glm/glm/simd/common.h \
+		glm/glm/detail/func_geometric_simd.inl \
+		glm/glm/simd/geometric.h \
+		glm/glm/detail/func_matrix_simd.inl \
+		glm/glm/simd/matrix.h \
+		glm/glm/trigonometric.hpp \
+		glm/glm/detail/func_trigonometric.hpp \
+		glm/glm/detail/func_trigonometric.inl \
+		glm/glm/detail/func_trigonometric_simd.inl \
+		glm/glm/exponential.hpp \
+		glm/glm/common.hpp \
+		glm/glm/packing.hpp \
+		glm/glm/detail/func_packing.hpp \
+		glm/glm/detail/func_packing.inl \
+		glm/glm/detail/type_half.hpp \
+		glm/glm/detail/type_half.inl \
+		glm/glm/detail/func_packing_simd.inl \
+		glm/glm/matrix.hpp \
+		glm/glm/vector_relational.hpp \
+		glm/glm/integer.hpp \
+		glm/glm/detail/func_integer.hpp \
+		glm/glm/detail/func_integer.inl \
+		glm/glm/detail/func_integer_simd.inl \
+		glm/glm/simd/integer.h \
 		dialogline.h \
-		dialogview.h
+		dialogview.h \
+		dialogcolor.h \
+		dialogcolorcube.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o main.cpp
 
 mainview.o: mainview.cpp mainview.h \
 		glew/include/GL/glew.h \
 		scene.h \
-		scenebasic.h \
-		glslprogram.h \
 		glm/glm/glm.hpp \
 		glm/glm/detail/_fixes.hpp \
 		glm/glm/fwd.hpp \
@@ -601,13 +1371,13 @@ mainview.o: mainview.cpp mainview.h \
 		glm/glm/detail/func_integer.inl \
 		glm/glm/detail/func_integer_simd.inl \
 		glm/glm/simd/integer.h \
+		scenebasic.h \
+		glslprogram.h \
 		glutils.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainview.o mainview.cpp
 
 scenebasic.o: scenebasic.cpp scenebasic.h \
 		scene.h \
-		glew/include/GL/glew.h \
-		glslprogram.h \
 		glm/glm/glm.hpp \
 		glm/glm/detail/_fixes.hpp \
 		glm/glm/fwd.hpp \
@@ -700,6 +1470,8 @@ scenebasic.o: scenebasic.cpp scenebasic.h \
 		glm/glm/detail/func_integer.inl \
 		glm/glm/detail/func_integer_simd.inl \
 		glm/glm/simd/integer.h \
+		glew/include/GL/glew.h \
+		glslprogram.h \
 		glutils.h \
 		glm/glm/gtc/matrix_transform.hpp \
 		glm/glm/gtc/constants.hpp \
@@ -715,6 +1487,98 @@ dialogline.o: dialogline.cpp dialogline.h \
 		mainview.h \
 		glew/include/GL/glew.h \
 		scene.h \
+		glm/glm/glm.hpp \
+		glm/glm/detail/_fixes.hpp \
+		glm/glm/fwd.hpp \
+		glm/glm/detail/type_int.hpp \
+		glm/glm/detail/setup.hpp \
+		glm/glm/simd/platform.h \
+		glm/glm/detail/type_float.hpp \
+		glm/glm/detail/type_vec.hpp \
+		glm/glm/detail/precision.hpp \
+		glm/glm/detail/type_mat.hpp \
+		glm/glm/vec2.hpp \
+		glm/glm/detail/type_vec2.hpp \
+		glm/glm/detail/_swizzle.hpp \
+		glm/glm/detail/_swizzle_func.hpp \
+		glm/glm/detail/type_vec2.inl \
+		glm/glm/vec3.hpp \
+		glm/glm/detail/type_vec3.hpp \
+		glm/glm/detail/type_vec3.inl \
+		glm/glm/vec4.hpp \
+		glm/glm/detail/type_vec4.hpp \
+		glm/glm/detail/type_vec4.inl \
+		glm/glm/detail/type_vec4_simd.inl \
+		glm/glm/mat2x2.hpp \
+		glm/glm/detail/type_mat2x2.hpp \
+		glm/glm/detail/type_mat2x2.inl \
+		glm/glm/detail/func_matrix.hpp \
+		glm/glm/mat2x3.hpp \
+		glm/glm/detail/type_mat2x3.hpp \
+		glm/glm/detail/type_mat2x3.inl \
+		glm/glm/mat2x4.hpp \
+		glm/glm/detail/type_mat2x4.hpp \
+		glm/glm/detail/type_mat2x4.inl \
+		glm/glm/mat3x2.hpp \
+		glm/glm/detail/type_mat3x2.hpp \
+		glm/glm/detail/type_mat3x2.inl \
+		glm/glm/mat3x3.hpp \
+		glm/glm/detail/type_mat3x3.hpp \
+		glm/glm/detail/type_mat3x3.inl \
+		glm/glm/mat3x4.hpp \
+		glm/glm/detail/type_mat3x4.hpp \
+		glm/glm/detail/type_mat3x4.inl \
+		glm/glm/mat4x2.hpp \
+		glm/glm/detail/type_mat4x2.hpp \
+		glm/glm/detail/type_mat4x2.inl \
+		glm/glm/mat4x3.hpp \
+		glm/glm/detail/type_mat4x3.hpp \
+		glm/glm/detail/type_mat4x3.inl \
+		glm/glm/mat4x4.hpp \
+		glm/glm/detail/type_mat4x4.hpp \
+		glm/glm/detail/type_mat4x4.inl \
+		glm/glm/detail/type_mat4x4_simd.inl \
+		glm/glm/detail/func_matrix.inl \
+		glm/glm/geometric.hpp \
+		glm/glm/detail/func_geometric.hpp \
+		glm/glm/detail/func_geometric.inl \
+		glm/glm/detail/func_exponential.hpp \
+		glm/glm/detail/type_vec1.hpp \
+		glm/glm/detail/type_vec1.inl \
+		glm/glm/detail/func_exponential.inl \
+		glm/glm/detail/func_vector_relational.hpp \
+		glm/glm/detail/func_vector_relational.inl \
+		glm/glm/detail/func_vector_relational_simd.inl \
+		glm/glm/detail/_vectorize.hpp \
+		glm/glm/detail/func_exponential_simd.inl \
+		glm/glm/simd/exponential.h \
+		glm/glm/detail/func_common.hpp \
+		glm/glm/detail/func_common.inl \
+		glm/glm/detail/func_common_simd.inl \
+		glm/glm/simd/common.h \
+		glm/glm/detail/func_geometric_simd.inl \
+		glm/glm/simd/geometric.h \
+		glm/glm/detail/func_matrix_simd.inl \
+		glm/glm/simd/matrix.h \
+		glm/glm/trigonometric.hpp \
+		glm/glm/detail/func_trigonometric.hpp \
+		glm/glm/detail/func_trigonometric.inl \
+		glm/glm/detail/func_trigonometric_simd.inl \
+		glm/glm/exponential.hpp \
+		glm/glm/common.hpp \
+		glm/glm/packing.hpp \
+		glm/glm/detail/func_packing.hpp \
+		glm/glm/detail/func_packing.inl \
+		glm/glm/detail/type_half.hpp \
+		glm/glm/detail/type_half.inl \
+		glm/glm/detail/func_packing_simd.inl \
+		glm/glm/matrix.hpp \
+		glm/glm/vector_relational.hpp \
+		glm/glm/integer.hpp \
+		glm/glm/detail/func_integer.hpp \
+		glm/glm/detail/func_integer.inl \
+		glm/glm/detail/func_integer_simd.inl \
+		glm/glm/simd/integer.h \
 		ui_dialogline.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o dialogline.o dialogline.cpp
 
@@ -722,8 +1586,298 @@ dialogview.o: dialogview.cpp dialogview.h \
 		mainview.h \
 		glew/include/GL/glew.h \
 		scene.h \
+		glm/glm/glm.hpp \
+		glm/glm/detail/_fixes.hpp \
+		glm/glm/fwd.hpp \
+		glm/glm/detail/type_int.hpp \
+		glm/glm/detail/setup.hpp \
+		glm/glm/simd/platform.h \
+		glm/glm/detail/type_float.hpp \
+		glm/glm/detail/type_vec.hpp \
+		glm/glm/detail/precision.hpp \
+		glm/glm/detail/type_mat.hpp \
+		glm/glm/vec2.hpp \
+		glm/glm/detail/type_vec2.hpp \
+		glm/glm/detail/_swizzle.hpp \
+		glm/glm/detail/_swizzle_func.hpp \
+		glm/glm/detail/type_vec2.inl \
+		glm/glm/vec3.hpp \
+		glm/glm/detail/type_vec3.hpp \
+		glm/glm/detail/type_vec3.inl \
+		glm/glm/vec4.hpp \
+		glm/glm/detail/type_vec4.hpp \
+		glm/glm/detail/type_vec4.inl \
+		glm/glm/detail/type_vec4_simd.inl \
+		glm/glm/mat2x2.hpp \
+		glm/glm/detail/type_mat2x2.hpp \
+		glm/glm/detail/type_mat2x2.inl \
+		glm/glm/detail/func_matrix.hpp \
+		glm/glm/mat2x3.hpp \
+		glm/glm/detail/type_mat2x3.hpp \
+		glm/glm/detail/type_mat2x3.inl \
+		glm/glm/mat2x4.hpp \
+		glm/glm/detail/type_mat2x4.hpp \
+		glm/glm/detail/type_mat2x4.inl \
+		glm/glm/mat3x2.hpp \
+		glm/glm/detail/type_mat3x2.hpp \
+		glm/glm/detail/type_mat3x2.inl \
+		glm/glm/mat3x3.hpp \
+		glm/glm/detail/type_mat3x3.hpp \
+		glm/glm/detail/type_mat3x3.inl \
+		glm/glm/mat3x4.hpp \
+		glm/glm/detail/type_mat3x4.hpp \
+		glm/glm/detail/type_mat3x4.inl \
+		glm/glm/mat4x2.hpp \
+		glm/glm/detail/type_mat4x2.hpp \
+		glm/glm/detail/type_mat4x2.inl \
+		glm/glm/mat4x3.hpp \
+		glm/glm/detail/type_mat4x3.hpp \
+		glm/glm/detail/type_mat4x3.inl \
+		glm/glm/mat4x4.hpp \
+		glm/glm/detail/type_mat4x4.hpp \
+		glm/glm/detail/type_mat4x4.inl \
+		glm/glm/detail/type_mat4x4_simd.inl \
+		glm/glm/detail/func_matrix.inl \
+		glm/glm/geometric.hpp \
+		glm/glm/detail/func_geometric.hpp \
+		glm/glm/detail/func_geometric.inl \
+		glm/glm/detail/func_exponential.hpp \
+		glm/glm/detail/type_vec1.hpp \
+		glm/glm/detail/type_vec1.inl \
+		glm/glm/detail/func_exponential.inl \
+		glm/glm/detail/func_vector_relational.hpp \
+		glm/glm/detail/func_vector_relational.inl \
+		glm/glm/detail/func_vector_relational_simd.inl \
+		glm/glm/detail/_vectorize.hpp \
+		glm/glm/detail/func_exponential_simd.inl \
+		glm/glm/simd/exponential.h \
+		glm/glm/detail/func_common.hpp \
+		glm/glm/detail/func_common.inl \
+		glm/glm/detail/func_common_simd.inl \
+		glm/glm/simd/common.h \
+		glm/glm/detail/func_geometric_simd.inl \
+		glm/glm/simd/geometric.h \
+		glm/glm/detail/func_matrix_simd.inl \
+		glm/glm/simd/matrix.h \
+		glm/glm/trigonometric.hpp \
+		glm/glm/detail/func_trigonometric.hpp \
+		glm/glm/detail/func_trigonometric.inl \
+		glm/glm/detail/func_trigonometric_simd.inl \
+		glm/glm/exponential.hpp \
+		glm/glm/common.hpp \
+		glm/glm/packing.hpp \
+		glm/glm/detail/func_packing.hpp \
+		glm/glm/detail/func_packing.inl \
+		glm/glm/detail/type_half.hpp \
+		glm/glm/detail/type_half.inl \
+		glm/glm/detail/func_packing_simd.inl \
+		glm/glm/matrix.hpp \
+		glm/glm/vector_relational.hpp \
+		glm/glm/integer.hpp \
+		glm/glm/detail/func_integer.hpp \
+		glm/glm/detail/func_integer.inl \
+		glm/glm/detail/func_integer_simd.inl \
+		glm/glm/simd/integer.h \
 		ui_dialogview.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o dialogview.o dialogview.cpp
+
+dialogcolor.o: dialogcolor.cpp dialogcolor.h \
+		mainview.h \
+		glew/include/GL/glew.h \
+		scene.h \
+		glm/glm/glm.hpp \
+		glm/glm/detail/_fixes.hpp \
+		glm/glm/fwd.hpp \
+		glm/glm/detail/type_int.hpp \
+		glm/glm/detail/setup.hpp \
+		glm/glm/simd/platform.h \
+		glm/glm/detail/type_float.hpp \
+		glm/glm/detail/type_vec.hpp \
+		glm/glm/detail/precision.hpp \
+		glm/glm/detail/type_mat.hpp \
+		glm/glm/vec2.hpp \
+		glm/glm/detail/type_vec2.hpp \
+		glm/glm/detail/_swizzle.hpp \
+		glm/glm/detail/_swizzle_func.hpp \
+		glm/glm/detail/type_vec2.inl \
+		glm/glm/vec3.hpp \
+		glm/glm/detail/type_vec3.hpp \
+		glm/glm/detail/type_vec3.inl \
+		glm/glm/vec4.hpp \
+		glm/glm/detail/type_vec4.hpp \
+		glm/glm/detail/type_vec4.inl \
+		glm/glm/detail/type_vec4_simd.inl \
+		glm/glm/mat2x2.hpp \
+		glm/glm/detail/type_mat2x2.hpp \
+		glm/glm/detail/type_mat2x2.inl \
+		glm/glm/detail/func_matrix.hpp \
+		glm/glm/mat2x3.hpp \
+		glm/glm/detail/type_mat2x3.hpp \
+		glm/glm/detail/type_mat2x3.inl \
+		glm/glm/mat2x4.hpp \
+		glm/glm/detail/type_mat2x4.hpp \
+		glm/glm/detail/type_mat2x4.inl \
+		glm/glm/mat3x2.hpp \
+		glm/glm/detail/type_mat3x2.hpp \
+		glm/glm/detail/type_mat3x2.inl \
+		glm/glm/mat3x3.hpp \
+		glm/glm/detail/type_mat3x3.hpp \
+		glm/glm/detail/type_mat3x3.inl \
+		glm/glm/mat3x4.hpp \
+		glm/glm/detail/type_mat3x4.hpp \
+		glm/glm/detail/type_mat3x4.inl \
+		glm/glm/mat4x2.hpp \
+		glm/glm/detail/type_mat4x2.hpp \
+		glm/glm/detail/type_mat4x2.inl \
+		glm/glm/mat4x3.hpp \
+		glm/glm/detail/type_mat4x3.hpp \
+		glm/glm/detail/type_mat4x3.inl \
+		glm/glm/mat4x4.hpp \
+		glm/glm/detail/type_mat4x4.hpp \
+		glm/glm/detail/type_mat4x4.inl \
+		glm/glm/detail/type_mat4x4_simd.inl \
+		glm/glm/detail/func_matrix.inl \
+		glm/glm/geometric.hpp \
+		glm/glm/detail/func_geometric.hpp \
+		glm/glm/detail/func_geometric.inl \
+		glm/glm/detail/func_exponential.hpp \
+		glm/glm/detail/type_vec1.hpp \
+		glm/glm/detail/type_vec1.inl \
+		glm/glm/detail/func_exponential.inl \
+		glm/glm/detail/func_vector_relational.hpp \
+		glm/glm/detail/func_vector_relational.inl \
+		glm/glm/detail/func_vector_relational_simd.inl \
+		glm/glm/detail/_vectorize.hpp \
+		glm/glm/detail/func_exponential_simd.inl \
+		glm/glm/simd/exponential.h \
+		glm/glm/detail/func_common.hpp \
+		glm/glm/detail/func_common.inl \
+		glm/glm/detail/func_common_simd.inl \
+		glm/glm/simd/common.h \
+		glm/glm/detail/func_geometric_simd.inl \
+		glm/glm/simd/geometric.h \
+		glm/glm/detail/func_matrix_simd.inl \
+		glm/glm/simd/matrix.h \
+		glm/glm/trigonometric.hpp \
+		glm/glm/detail/func_trigonometric.hpp \
+		glm/glm/detail/func_trigonometric.inl \
+		glm/glm/detail/func_trigonometric_simd.inl \
+		glm/glm/exponential.hpp \
+		glm/glm/common.hpp \
+		glm/glm/packing.hpp \
+		glm/glm/detail/func_packing.hpp \
+		glm/glm/detail/func_packing.inl \
+		glm/glm/detail/type_half.hpp \
+		glm/glm/detail/type_half.inl \
+		glm/glm/detail/func_packing_simd.inl \
+		glm/glm/matrix.hpp \
+		glm/glm/vector_relational.hpp \
+		glm/glm/integer.hpp \
+		glm/glm/detail/func_integer.hpp \
+		glm/glm/detail/func_integer.inl \
+		glm/glm/detail/func_integer_simd.inl \
+		glm/glm/simd/integer.h \
+		ui_dialogcolor.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o dialogcolor.o dialogcolor.cpp
+
+dialogcolorcube.o: dialogcolorcube.cpp dialogcolorcube.h \
+		mainview.h \
+		glew/include/GL/glew.h \
+		scene.h \
+		glm/glm/glm.hpp \
+		glm/glm/detail/_fixes.hpp \
+		glm/glm/fwd.hpp \
+		glm/glm/detail/type_int.hpp \
+		glm/glm/detail/setup.hpp \
+		glm/glm/simd/platform.h \
+		glm/glm/detail/type_float.hpp \
+		glm/glm/detail/type_vec.hpp \
+		glm/glm/detail/precision.hpp \
+		glm/glm/detail/type_mat.hpp \
+		glm/glm/vec2.hpp \
+		glm/glm/detail/type_vec2.hpp \
+		glm/glm/detail/_swizzle.hpp \
+		glm/glm/detail/_swizzle_func.hpp \
+		glm/glm/detail/type_vec2.inl \
+		glm/glm/vec3.hpp \
+		glm/glm/detail/type_vec3.hpp \
+		glm/glm/detail/type_vec3.inl \
+		glm/glm/vec4.hpp \
+		glm/glm/detail/type_vec4.hpp \
+		glm/glm/detail/type_vec4.inl \
+		glm/glm/detail/type_vec4_simd.inl \
+		glm/glm/mat2x2.hpp \
+		glm/glm/detail/type_mat2x2.hpp \
+		glm/glm/detail/type_mat2x2.inl \
+		glm/glm/detail/func_matrix.hpp \
+		glm/glm/mat2x3.hpp \
+		glm/glm/detail/type_mat2x3.hpp \
+		glm/glm/detail/type_mat2x3.inl \
+		glm/glm/mat2x4.hpp \
+		glm/glm/detail/type_mat2x4.hpp \
+		glm/glm/detail/type_mat2x4.inl \
+		glm/glm/mat3x2.hpp \
+		glm/glm/detail/type_mat3x2.hpp \
+		glm/glm/detail/type_mat3x2.inl \
+		glm/glm/mat3x3.hpp \
+		glm/glm/detail/type_mat3x3.hpp \
+		glm/glm/detail/type_mat3x3.inl \
+		glm/glm/mat3x4.hpp \
+		glm/glm/detail/type_mat3x4.hpp \
+		glm/glm/detail/type_mat3x4.inl \
+		glm/glm/mat4x2.hpp \
+		glm/glm/detail/type_mat4x2.hpp \
+		glm/glm/detail/type_mat4x2.inl \
+		glm/glm/mat4x3.hpp \
+		glm/glm/detail/type_mat4x3.hpp \
+		glm/glm/detail/type_mat4x3.inl \
+		glm/glm/mat4x4.hpp \
+		glm/glm/detail/type_mat4x4.hpp \
+		glm/glm/detail/type_mat4x4.inl \
+		glm/glm/detail/type_mat4x4_simd.inl \
+		glm/glm/detail/func_matrix.inl \
+		glm/glm/geometric.hpp \
+		glm/glm/detail/func_geometric.hpp \
+		glm/glm/detail/func_geometric.inl \
+		glm/glm/detail/func_exponential.hpp \
+		glm/glm/detail/type_vec1.hpp \
+		glm/glm/detail/type_vec1.inl \
+		glm/glm/detail/func_exponential.inl \
+		glm/glm/detail/func_vector_relational.hpp \
+		glm/glm/detail/func_vector_relational.inl \
+		glm/glm/detail/func_vector_relational_simd.inl \
+		glm/glm/detail/_vectorize.hpp \
+		glm/glm/detail/func_exponential_simd.inl \
+		glm/glm/simd/exponential.h \
+		glm/glm/detail/func_common.hpp \
+		glm/glm/detail/func_common.inl \
+		glm/glm/detail/func_common_simd.inl \
+		glm/glm/simd/common.h \
+		glm/glm/detail/func_geometric_simd.inl \
+		glm/glm/simd/geometric.h \
+		glm/glm/detail/func_matrix_simd.inl \
+		glm/glm/simd/matrix.h \
+		glm/glm/trigonometric.hpp \
+		glm/glm/detail/func_trigonometric.hpp \
+		glm/glm/detail/func_trigonometric.inl \
+		glm/glm/detail/func_trigonometric_simd.inl \
+		glm/glm/exponential.hpp \
+		glm/glm/common.hpp \
+		glm/glm/packing.hpp \
+		glm/glm/detail/func_packing.hpp \
+		glm/glm/detail/func_packing.inl \
+		glm/glm/detail/type_half.hpp \
+		glm/glm/detail/type_half.inl \
+		glm/glm/detail/func_packing_simd.inl \
+		glm/glm/matrix.hpp \
+		glm/glm/vector_relational.hpp \
+		glm/glm/integer.hpp \
+		glm/glm/detail/func_integer.hpp \
+		glm/glm/detail/func_integer.inl \
+		glm/glm/detail/func_integer_simd.inl \
+		glm/glm/simd/integer.h \
+		ui_dialogcolorcube.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o dialogcolorcube.o dialogcolorcube.cpp
 
 moc_mainwindow.o: moc_mainwindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_mainwindow.o moc_mainwindow.cpp
@@ -736,6 +1890,12 @@ moc_dialogline.o: moc_dialogline.cpp
 
 moc_dialogview.o: moc_dialogview.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_dialogview.o moc_dialogview.cpp
+
+moc_dialogcolor.o: moc_dialogcolor.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_dialogcolor.o moc_dialogcolor.cpp
+
+moc_dialogcolorcube.o: moc_dialogcolorcube.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_dialogcolorcube.o moc_dialogcolorcube.cpp
 
 ####### Install
 

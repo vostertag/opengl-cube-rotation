@@ -5,6 +5,8 @@
 #include "mainview.h"
 #include "dialogline.h"
 #include "dialogview.h"
+#include "dialogcolor.h"
+#include "dialogcolorcube.h"
 
 namespace Ui {
 class MainWindow;
@@ -28,13 +30,17 @@ private slots:
 
     void on_actionLine_triggered();
 
-    void on_actionLine_2_triggered();
+    void on_actionBackground7_triggered();
+
+    void on_actionCube_triggered();
 
 private:
     Ui::MainWindow *ui;
     MainView* view;
     DialogLine *diagLine;
     DialogView *dialogView;
+    DialogColor *dialogColor;
+    DialogColorCube *dialogColorCube;
 
 };
 

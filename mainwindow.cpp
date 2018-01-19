@@ -33,6 +33,24 @@ void MainWindow::on_actionNew_View_triggered()
 
 void MainWindow::on_actionReset_view_triggered()
 {
-    this->view->getScene()->updateView(0,0,2,0,0,0);
+    this->view->getScene()->defaultCubePosition();
     this->view->updateGL();
+}
+
+void MainWindow::on_actionLine_triggered()
+{
+    dialogColor = new DialogColor(this, this->view, 0);
+    dialogColor->show();
+}
+
+void MainWindow::on_actionBackground7_triggered()
+{
+    dialogColor = new DialogColor(this, this->view, 1);
+    dialogColor->show();
+}
+
+void MainWindow::on_actionCube_triggered()
+{
+    dialogColorCube = new DialogColorCube(this, this->view);
+    dialogColorCube->show();
 }

@@ -39,6 +39,9 @@
      <property name="title">
       <string>Colors</string>
      </property>
+     <addaction name="actionLine"/>
+     <addaction name="actionBackground7"/>
+     <addaction name="actionCube"/>
     </widget>
     <addaction name="menuColors"/>
    </widget>
@@ -52,12 +55,37 @@
   </action>
   <action name="actionNew_View">
    <property name="text">
-    <string>New View</string>
+    <string>View Position</string>
    </property>
   </action>
   <action name="actionReset_view">
    <property name="text">
-    <string>Reset view</string>
+    <string>Default Position</string>
+   </property>
+  </action>
+  <action name="actionLine">
+   <property name="text">
+    <string>Line</string>
+   </property>
+  </action>
+  <action name="actionBackground7">
+   <property name="text">
+    <string>Background</string>
+   </property>
+  </action>
+  <action name="actionCube">
+   <property name="text">
+    <string>Cube</string>
+   </property>
+  </action>
+  <action name="actionCube_2">
+   <property name="text">
+    <string>Cube</string>
+   </property>
+  </action>
+  <action name="actionLine_2">
+   <property name="text">
+    <string>Line</string>
    </property>
   </action>
  </widget>
