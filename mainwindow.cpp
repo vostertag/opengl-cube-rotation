@@ -34,4 +34,5 @@ void MainWindow::on_actionNew_View_triggered()
 void MainWindow::on_actionReset_view_triggered()
 {
     this->view->getScene()->updateView(0,0,2,0,0,0);
+    this->view->updateGL();
 }

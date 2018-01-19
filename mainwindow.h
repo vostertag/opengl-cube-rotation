@@ -28,6 +28,8 @@ private slots:
 
     void on_actionLine_triggered();
 
+    void on_actionLine_2_triggered();
+
 private:
     Ui::MainWindow *ui;
     MainView* view;

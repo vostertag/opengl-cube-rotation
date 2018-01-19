@@ -30,6 +30,8 @@ public:
     QWidget *centralWidget;
     QMenuBar *menuBar;
     QMenu *menuLine_rotation;
+    QMenu *menuBonus;
+    QMenu *menuColors;
 
     void setupUi(QMainWindow *MainWindow)
     {
@@ -50,12 +52,18 @@ public:
         menuBar->setGeometry(QRect(0, 0, 400, 19));
         menuLine_rotation = new QMenu(menuBar);
         menuLine_rotation->setObjectName(QStringLiteral("menuLine_rotation"));
+        menuBonus = new QMenu(menuBar);
+        menuBonus->setObjectName(QStringLiteral("menuBonus"));
+        menuColors = new QMenu(menuBonus);
+        menuColors->setObjectName(QStringLiteral("menuColors"));
         MainWindow->setMenuBar(menuBar);
 
         menuBar->addAction(menuLine_rotation->menuAction());
+        menuBar->addAction(menuBonus->menuAction());
         menuLine_rotation->addAction(actionLine_rotation);
         menuLine_rotation->addAction(actionNew_View);
         menuLine_rotation->addAction(actionReset_view);
+        menuBonus->addAction(menuColors->menuAction());
 
         retranslateUi(MainWindow);
 
@@ -69,6 +77,8 @@ public:
         actionNew_View->setText(QApplication::translate("MainWindow", "New View", 0));
         actionReset_view->setText(QApplication::translate("MainWindow", "Reset view", 0));
         menuLine_rotation->setTitle(QApplication::translate("MainWindow", "Actions", 0));
+        menuBonus->setTitle(QApplication::translate("MainWindow", "Bonus", 0));
+        menuColors->setTitle(QApplication::translate("MainWindow", "Colors", 0));
     } // retranslateUi
 
 };

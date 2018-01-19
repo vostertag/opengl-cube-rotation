@@ -228,7 +228,6 @@ void SceneBasic::render()
        36 specifies the number of indices to be rendered. */
 
     setMatrices();
-    glDrawArrays(GL_POINT, 38, 1 );
     glDrawArrays(GL_TRIANGLES, 0, 36 );
     glDrawArrays(GL_LINES, 36, 2 );
 }

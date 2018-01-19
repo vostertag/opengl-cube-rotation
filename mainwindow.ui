@@ -31,7 +31,19 @@
     <addaction name="actionNew_View"/>
     <addaction name="actionReset_view"/>
    </widget>
+   <widget class="QMenu" name="menuBonus">
+    <property name="title">
+     <string>Bonus</string>
+    </property>
+    <widget class="QMenu" name="menuColors">
+     <property name="title">
+      <string>Colors</string>
+     </property>
+    </widget>
+    <addaction name="menuColors"/>
+   </widget>
    <addaction name="menuLine_rotation"/>
+   <addaction name="menuBonus"/>
   </widget>
   <action name="actionLine_rotation">
    <property name="text">
@@ -46,11 +58,6 @@
   <action name="actionReset_view">
    <property name="text">
     <string>Reset view</string>
-   </property>
-  </action>
-  <action name="actionLine">
-   <property name="text">
-    <string>Line</string>
    </property>
   </action>
  </widget>
