@@ -318,6 +318,9 @@ void SceneBasic::setBackgroundColor(float percentRed, float percentGreen, float 
 
 void SceneBasic::defaultCubePosition(){
     model = mat4(1.0f);
+    readData("shader/scenebasic2.dat");
+    setLineColor(0,0,0);
+    setBackgroundColor(1,1,1);
     updateView(0,0,2,0,0,0);
 }
 
