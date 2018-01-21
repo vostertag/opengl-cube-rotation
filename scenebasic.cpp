@@ -181,8 +181,8 @@ void SceneBasic::initScene()
     prog.printActiveUniforms();
 
     model = mat4(1.0f);
-    float ang = -PI/6;
-    /*model *= glm::rotate(mat4(1.0f),ang, vec3(1.0f,0.0f,0.0f));
+    /*float ang = -PI/6;
+    model *= glm::rotate(mat4(1.0f),ang, vec3(1.0f,0.0f,0.0f));
     model *= glm::rotate(mat4(1.0f),-ang, vec3(0.0f,1.0f,0.0f));*/
     view = glm::lookAt(vec3(0.0f,0.0f,2.0f), vec3(0.0f,0.0f,0.0f), vec3(0.0f,1.0f,0.0f));
     projection = mat4(1.0f);
