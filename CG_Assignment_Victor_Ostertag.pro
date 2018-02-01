@@ -41,10 +41,16 @@ FORMS    += mainwindow.ui \
     dialogcolor.ui \
     dialogcolorcube.ui
 
-unix|win32: LIBS += -L$$PWD/../../../Documents/Dev/glew-2.1.0/build/lib/ -lGLEW
 
-INCLUDEPATH += $$PWD/../../../Documents/Dev/glew-2.1.0/build
-DEPENDPATH += $$PWD/../../../Documents/Dev/glew-2.1.0/build
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/glew/build/lib/release/ -lGLEW
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/glew/build/lib/debug/ -lGLEW
+else:unix:!macx: LIBS += -L$$PWD/glew/build/lib/ -lGLEW
 
-win32:!win32-g++: PRE_TARGETDEPS += $$PWD/../../../Documents/Dev/glew-2.1.0/build/lib/GLEW.lib
-else:unix|win32-g++: PRE_TARGETDEPS += $$PWD/../../../Documents/Dev/glew-2.1.0/build/lib/libGLEW.a
+INCLUDEPATH += $$PWD/glew/build
+DEPENDPATH += $$PWD/glew/build
+
+win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/glew/build/lib/release/libGLEW.a
+else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/glew/build/lib/debug/libGLEW.a
+else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/glew/build/lib/release/GLEW.lib
+else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/glew/build/lib/debug/GLEW.lib
+else:unix:!macx: PRE_TARGETDEPS += $$PWD/glew/build/lib/libGLEW.a
