@@ -3,9 +3,9 @@
 
 DialogColor::DialogColor(QWidget *parent, MainView* view, int type) :
     QDialog(parent),
+    ui(new Ui::DialogColor),
     view(view),
-    type(type),
-    ui(new Ui::DialogColor)
+    type(type)
 {
     ui->setupUi(this);
 }

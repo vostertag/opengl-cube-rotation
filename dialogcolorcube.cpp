@@ -8,8 +8,8 @@ using glm::vec3;
 
 DialogColorCube::DialogColorCube(QWidget *parent, MainView* view) :
     QDialog(parent),
-    view(view),
-    ui(new Ui::DialogColorCube)
+    ui(new Ui::DialogColorCube),
+    view(view)
 {
     ui->setupUi(this);
 }
