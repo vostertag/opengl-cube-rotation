@@ -24,15 +24,10 @@ private:
     mat4 view;
     mat4 projection;
 
-    mat4 trans1;
-    mat4 trans2;
-
     vec3 vecB;
     vec3 vecD;
 
     float currentAngle;
-
-    vec3 vecb;
 
     void readData(const char* fname);
     void CreateVBO();

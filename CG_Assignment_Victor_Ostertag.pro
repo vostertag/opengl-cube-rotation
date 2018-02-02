@@ -47,6 +47,7 @@ else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/glew/build/lib/debug/ -
 else:unix:!macx: LIBS += -L$$PWD/glew/build/lib/ -lGLEW
 
 INCLUDEPATH += $$PWD/glew/build
+INCLUDEPATH += $$PWD
 DEPENDPATH += $$PWD/glew/build
 
 win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/glew/build/lib/release/libGLEW.a
