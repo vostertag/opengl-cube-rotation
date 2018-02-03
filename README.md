@@ -13,7 +13,5 @@ You can perform these actions:
 - Change the color of the background
 - Reset everything
 
-Here is a demo:
-
-![Alt Text](https://im5.ezgif.com/tmp/ezgif-5-cb19990c32.gif)
+Here is a demo: https://youtu.be/9pCYDH3rUVc?t=18s
 
